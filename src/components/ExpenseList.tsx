@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useExpenses } from '../lib/hooks/useExpenses';
 import { generateInsights } from '../lib/openai';
 import { format } from 'date-fns';
@@ -20,23 +20,31 @@ export default function ExpenseList() {
     date: ''
   });
 
-  useEffect(() => {
-    const fetchInsights = async () => {
-      if (expenses.length > 0) {
-        setInsightsLoading(true);
-        try {
-          const insightsText = await generateInsights(expenses);
-          setInsights(insightsText);
-        } catch (error) {
-          console.error('Failed to generate insights:', error);
-        } finally {
-          setInsightsLoading(false);
-        }
+  const fetchInsights = useCallback(async () => {
+    if (expenses.length > 0) {
+      setInsightsLoading(true);
+      try {
+        const insightsText = await generateInsights(expenses);
+        setInsights(insightsText);
+      } catch (error) {
+        console.error('Failed to generate insights:', error);
+      } finally {
+        setInsightsLoading(false);
       }
-    };
-
-    fetchInsights();
+    }
   }, [expenses]);
+
+  useEffect(() => {
+    // Only generate insights if we have expenses and haven't generated them in the last 5 minutes
+    const lastInsightsGeneration = localStorage.getItem('lastInsightsGeneration');
+    const now = Date.now();
+    const fiveMinutes = 5 * 60 * 1000;
+
+    if (expenses.length > 0 && (!lastInsightsGeneration || now - parseInt(lastInsightsGeneration) > fiveMinutes)) {
+      fetchInsights();
+      localStorage.setItem('lastInsightsGeneration', now.toString());
+    }
+  }, [expenses, fetchInsights]);
 
   const categories = ['all', ...new Set(expenses.map((e: Expense) => e.category))];
   const filteredExpenses = selectedCategory === 'all' 
