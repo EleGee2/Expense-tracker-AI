@@ -6,10 +6,8 @@ A modern, full-featured expense tracking application built with Next.js, Firebas
 
 - 🔐 **Authentication**: Secure user authentication using Firebase
 - 💰 **Expense Tracking**: Add, edit, and delete expenses with categories
-- 📊 **Visual Analytics**: Interactive charts and graphs using Chart.js
 - 🎯 **Saving Goals**: Set and track your financial goals
 - 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
-- 📄 **Export Options**: Export your data to PDF and CSV formats
 - 🤖 **AI Integration**: Smart expense categorization using OpenAI
 
 ## Tech Stack
@@ -19,12 +17,9 @@ A modern, full-featured expense tracking application built with Next.js, Firebas
 - **Styling**: Tailwind CSS
 - **Authentication**: Firebase Auth
 - **Database**: Firebase Firestore
-- **Charts**: Chart.js with react-chartjs-2
 - **UI Components**: Heroicons
 - **Animations**: Framer Motion
 - **Date Handling**: date-fns
-- **PDF Generation**: @react-pdf/renderer
-- **CSV Export**: csv-stringify
 
 ## Getting Started
 
